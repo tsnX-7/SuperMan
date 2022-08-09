@@ -237,7 +237,7 @@ public class customer extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 740, 570));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, 740, 570));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -304,7 +304,7 @@ public class customer extends javax.swing.JPanel {
                 c_searchKeyTyped(evt);
             }
         });
-        jPanel1.add(c_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 30, 200, 20));
+        jPanel1.add(c_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 30, 200, 20));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-25.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -312,7 +312,7 @@ public class customer extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 30, 30, 20));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 30, 30, 20));
 
         jButton7.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton7.setText("Add Customer");
@@ -362,7 +362,7 @@ public class customer extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 727, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

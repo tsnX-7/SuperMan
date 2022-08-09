@@ -245,7 +245,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/images/icons8-add-shopping-cart-40.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Add Sale"/>
+            <Property name="text" type="java.lang.String" value="Billing"/>
             <Property name="alignmentY" type="float" value="0.0"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
             <Property name="horizontalTextPosition" type="int" value="4"/>

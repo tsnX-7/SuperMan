@@ -115,7 +115,7 @@ public class Home extends javax.swing.JFrame {
         home_btn_grp.add(jToggleButton4);
         jToggleButton4.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-add-shopping-cart-40.png"))); // NOI18N
-        jToggleButton4.setText("Add Sale");
+        jToggleButton4.setText("Billing");
         jToggleButton4.setAlignmentY(0.0F);
         jToggleButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jToggleButton4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -234,7 +234,9 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
     private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
-        // TODO add your handling code here:
+        //billing btn on home:
+        //Billing bp = new Billing();
+        jpload.jPanelLoader(panel_load, new Billing());
     }//GEN-LAST:event_jToggleButton4ActionPerformed
 
     private void jToggleButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton6ActionPerformed
