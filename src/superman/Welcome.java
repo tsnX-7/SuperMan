@@ -226,6 +226,29 @@ public class Welcome extends javax.swing.JFrame {
                     if(p.equals(password))
                         
                         new Home().setVisible(true);
+                        //dispose();
+                        setVisible(false);
+                }
+            } catch (Exception ex) {
+                //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.print(ex);
+            }
+        }
+        
+        if(role.equals("Seller")) {
+            
+            String username = usn.getText();
+            String password = pw.getText();
+            try{
+                Statement s = (Statement) db.mycon().createStatement();
+
+                ResultSet rs = s.executeQuery(" SELECT * FROM sellercred WHERE Username = '"+username+"'");
+
+                if(rs.next()) {
+                    String p = rs.getString("Password");
+                    if(p.equals(password))
+                        
+                        new SellerHome().setVisible(true);
                         dispose();
                 }
             } catch (Exception ex) {
