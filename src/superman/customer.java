@@ -375,8 +375,28 @@ public class customer extends javax.swing.JPanel {
     }//GEN-LAST:event_c_fnActionPerformed
 
     private void c_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_searchActionPerformed
-        // search via id text box
-        
+        // search via id text box (press enter)
+        String sr = c_search.getText();
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery(" SELECT * FROM customer WHERE cid = '"+sr+"'");
+            
+            if(rs.next()) {
+                  c_id.setText(rs.getString("cid"));
+                  c_fn.setText(rs.getString("first_name"));
+                  c_ln.setText(rs.getString("last_name"));
+                  c_gn.setSelectedItem(rs.getString("gender"));
+                  c_ag.setText(rs.getString("age"));
+                  c_cn.setText(rs.getString("contact"));
+                  c_ad.setText(rs.getString("address"));
+                  c_st.setSelectedItem(rs.getString("status"));
+
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
     }//GEN-LAST:event_c_searchActionPerformed
 
     private void c_stActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_stActionPerformed
@@ -418,7 +438,7 @@ public class customer extends javax.swing.JPanel {
     }//GEN-LAST:event_c_searchKeyTyped
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // search button on customer
+        // search button on customer (mouse click)
         String sr = c_search.getText();
         try{
             Statement s = (Statement) db.mycon().createStatement();

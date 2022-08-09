@@ -7,6 +7,8 @@ package superman;
 import com.mysql.jdbc.Statement;
 import java.sql.SQLException;
 import java.sql.*;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,8 +21,35 @@ public class product extends javax.swing.JPanel {
      */
     public product() {
         initComponents();
+        tb_load();
     }
 
+    public void tb_load() {
+        
+        try {
+            DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
+            dt.setRowCount(0);
+            
+            Statement s = (Statement) db.mycon().createStatement();
+            ResultSet rs = s.executeQuery(" SELECT * FROM product");
+            
+            while(rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getString(1));
+                v.add(rs.getString(2));
+                v.add(rs.getString(3));
+                v.add(rs.getString(4));
+                v.add(rs.getString(5));
+                v.add(rs.getString(6));
+                v.add(rs.getString(7));
+                
+                dt.addRow(v);
+                
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,26 +61,29 @@ public class product extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        c_fname = new javax.swing.JTextField();
+        p_name = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        c_age = new javax.swing.JTextField();
-        c_cont = new javax.swing.JTextField();
+        p_qty = new javax.swing.JTextField();
+        p_p = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        c_gen = new javax.swing.JComboBox<>();
-        c_id = new javax.swing.JTextField();
+        p_cat = new javax.swing.JComboBox<>();
+        p_id = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        c_adr = new javax.swing.JTextArea();
+        p_des = new javax.swing.JTextArea();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        p_com = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable2 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
-        c_search = new javax.swing.JTextField();
+        p_search = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
@@ -65,20 +97,20 @@ public class product extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        c_fname.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        c_fname.setAlignmentX(0.0F);
-        c_fname.setAlignmentY(0.0F);
-        c_fname.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        c_fname.addActionListener(new java.awt.event.ActionListener() {
+        p_name.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        p_name.setAlignmentX(0.0F);
+        p_name.setAlignmentY(0.0F);
+        p_name.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        p_name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                c_fnameActionPerformed(evt);
+                p_nameActionPerformed(evt);
             }
         });
-        jPanel2.add(c_fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 290, 30));
+        jPanel2.add(p_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 290, 30));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
-        jLabel2.setText("Product Name");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, 30));
+        jLabel2.setText("Company");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, 30));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel9.setText("Category");
@@ -89,90 +121,109 @@ public class product extends javax.swing.JPanel {
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 40, 30));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
-        jLabel11.setText("Supplier ID");
+        jLabel11.setText("Price");
         jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, 30));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel12.setText("Product ID");
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, 20));
 
-        c_age.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        c_age.setAlignmentX(0.0F);
-        c_age.setAlignmentY(0.0F);
-        c_age.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        c_age.addActionListener(new java.awt.event.ActionListener() {
+        p_qty.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        p_qty.setAlignmentX(0.0F);
+        p_qty.setAlignmentY(0.0F);
+        p_qty.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        p_qty.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                c_ageActionPerformed(evt);
+                p_qtyActionPerformed(evt);
             }
         });
-        jPanel2.add(c_age, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 80, 30));
+        jPanel2.add(p_qty, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 80, 30));
 
-        c_cont.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        c_cont.setAlignmentX(0.0F);
-        c_cont.setAlignmentY(0.0F);
-        c_cont.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        c_cont.addActionListener(new java.awt.event.ActionListener() {
+        p_p.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        p_p.setAlignmentX(0.0F);
+        p_p.setAlignmentY(0.0F);
+        p_p.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        p_p.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                c_contActionPerformed(evt);
+                p_pActionPerformed(evt);
             }
         });
-        jPanel2.add(c_cont, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 290, 30));
+        jPanel2.add(p_p, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 140, 30));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel15.setText("Description");
-        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 80, 30));
+        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 80, 30));
 
-        c_gen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        c_gen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male ", "Female" }));
-        c_gen.setSelectedIndex(-1);
-        c_gen.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        c_gen.addActionListener(new java.awt.event.ActionListener() {
+        p_cat.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        p_cat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vegetable", "Fruit", "Grain", "Protein Food", "Dairy", "Oil/Solid Fats", "Beverages" }));
+        p_cat.setSelectedIndex(-1);
+        p_cat.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        p_cat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                c_genActionPerformed(evt);
+                p_catActionPerformed(evt);
             }
         });
-        jPanel2.add(c_gen, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 290, 30));
+        jPanel2.add(p_cat, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 290, 30));
 
-        c_id.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        c_id.setAlignmentX(0.0F);
-        c_id.setAlignmentY(0.0F);
-        c_id.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        c_id.addActionListener(new java.awt.event.ActionListener() {
+        p_id.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        p_id.setAlignmentX(0.0F);
+        p_id.setAlignmentY(0.0F);
+        p_id.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        p_id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                c_idActionPerformed(evt);
+                p_idActionPerformed(evt);
             }
         });
-        jPanel2.add(c_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 290, 30));
+        jPanel2.add(p_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 290, 30));
 
-        c_adr.setColumns(20);
-        c_adr.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        c_adr.setRows(4);
-        c_adr.setTabSize(4);
-        c_adr.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jScrollPane3.setViewportView(c_adr);
+        p_des.setColumns(20);
+        p_des.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        p_des.setRows(4);
+        p_des.setTabSize(4);
+        p_des.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        jScrollPane3.setViewportView(p_des);
 
-        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 290, 90));
+        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 290, 90));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 440, 400));
+        jTextField2.setText("(per unit)");
+        jTextField2.setBorder(null);
+        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 210, -1, -1));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
+        jLabel3.setText("Product Name");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, 30));
+
+        p_com.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        p_com.setAlignmentX(0.0F);
+        p_com.setAlignmentY(0.0F);
+        p_com.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        p_com.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                p_comActionPerformed(evt);
+            }
+        });
+        jPanel2.add(p_com, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 290, 30));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 440, 400));
+
+        jTable2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Prod. ID", "Prod. Name", "Category", "Available qty", "Supplier ID", "Company", "Description"
+                "Prod. ID", "Prod. Name", "Category", "Available qty", "Price", "Company", "Description"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable2);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 740, 570));
 
@@ -215,33 +266,33 @@ public class product extends javax.swing.JPanel {
         });
         jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 530, 10));
 
-        c_search.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        c_search.setForeground(new java.awt.Color(153, 153, 153));
-        c_search.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        c_search.setText("     Search via ID");
-        c_search.setAlignmentX(0.0F);
-        c_search.setAlignmentY(0.0F);
-        c_search.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        c_search.setDoubleBuffered(true);
-        c_search.addFocusListener(new java.awt.event.FocusAdapter() {
+        p_search.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        p_search.setForeground(new java.awt.Color(153, 153, 153));
+        p_search.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        p_search.setText("     Search via ID");
+        p_search.setAlignmentX(0.0F);
+        p_search.setAlignmentY(0.0F);
+        p_search.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        p_search.setDoubleBuffered(true);
+        p_search.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                c_searchFocusGained(evt);
+                p_searchFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                c_searchFocusLost(evt);
+                p_searchFocusLost(evt);
             }
         });
-        c_search.addActionListener(new java.awt.event.ActionListener() {
+        p_search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                c_searchActionPerformed(evt);
+                p_searchActionPerformed(evt);
             }
         });
-        c_search.addKeyListener(new java.awt.event.KeyAdapter() {
+        p_search.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                c_searchKeyTyped(evt);
+                p_searchKeyTyped(evt);
             }
         });
-        jPanel1.add(c_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 30, 200, 20));
+        jPanel1.add(p_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 30, 200, 20));
 
         jButton4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton4.setText("Delete");
@@ -301,52 +352,103 @@ public class product extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void c_fnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_fnameActionPerformed
+    private void p_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_nameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_c_fnameActionPerformed
+    }//GEN-LAST:event_p_nameActionPerformed
 
-    private void c_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_searchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_c_searchActionPerformed
+    private void p_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_searchActionPerformed
+        // search product via id btn: (enter)
+        
+        String id = p_search.getText();
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery(" SELECT * FROM product WHERE pid = '"+id+"'");
+            
+            if(rs.next()) {
+                  p_id.setText(String.valueOf(rs.getString("cid")));
+                  p_name.setText(rs.getString("pname"));
+                  p_cat.setSelectedItem(rs.getString("cat"));
+                  p_qty.setText(String.valueOf(rs.getString("qty")));
+                  p_p.setText(String.valueOf(rs.getString("price")));
+                  p_com.setText(rs.getString("com"));
+                  p_des.setText(rs.getString("des"));
 
-    private void c_ageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_ageActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_c_ageActionPerformed
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
+        
+    }//GEN-LAST:event_p_searchActionPerformed
 
-    private void c_contActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_contActionPerformed
+    private void p_qtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_qtyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_c_contActionPerformed
+    }//GEN-LAST:event_p_qtyActionPerformed
 
-    private void c_genActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_genActionPerformed
+    private void p_pActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_pActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_c_genActionPerformed
+    }//GEN-LAST:event_p_pActionPerformed
+
+    private void p_catActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_catActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_p_catActionPerformed
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField7ActionPerformed
 
-    private void c_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_idActionPerformed
+    private void p_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_idActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_c_idActionPerformed
+    }//GEN-LAST:event_p_idActionPerformed
 
-    private void c_searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_c_searchFocusGained
+    private void p_searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_p_searchFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_c_searchFocusGained
+    }//GEN-LAST:event_p_searchFocusGained
 
-    private void c_searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_c_searchFocusLost
+    private void p_searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_p_searchFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_c_searchFocusLost
+    }//GEN-LAST:event_p_searchFocusLost
 
-    private void c_searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_c_searchKeyTyped
+    private void p_searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_p_searchKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_c_searchKeyTyped
+    }//GEN-LAST:event_p_searchKeyTyped
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        // product delete btn:
+        
+        int id = Integer.parseInt(p_id.getText());
+        try {
+            Statement s = (Statement) db.mycon().createStatement();
+            s.executeUpdate(" DELETE from product WHERE pid = '"+id+"' ");
+        } catch(SQLException e) {
+            System.out.print(e);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        // search product (mouse click):
+        
+        String id = p_search.getText();
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery(" SELECT * FROM product WHERE pid = '"+id+"'");
+            
+            if(rs.next()) {
+                  p_id.setText(String.valueOf(rs.getString("cid")));
+                  p_name.setText(rs.getString("pname"));
+                  p_cat.setSelectedItem(rs.getString("cat"));
+                  p_qty.setText(String.valueOf(rs.getString("qty")));
+                  p_p.setText(String.valueOf(rs.getString("price")));
+                  p_com.setText(rs.getString("com"));
+                  p_des.setText(rs.getString("des"));
+
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -354,22 +456,51 @@ public class product extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        // Add product btn:
+        
+        int pid = Integer.parseInt(p_id.getText());
+        String pname = p_name.getText();
+        String pcat = (String)p_cat.getSelectedItem().toString();
+        int pqty = Integer.parseInt(p_qty.getText());
+        int pp = Integer.parseInt(p_p.getText());
+        String pcom = p_com.getText();
+        String pdes = p_des.getText();
+        
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            s.executeUpdate(" INSERT INTO product(pid, pname, cat, qty, price, com, des) VALUES('"+pid+"','"+pname+"','"+pcat+"','"+pqty+"','"+pp+"','"+pcom+"','"+pdes+"') ");
+            
+        }catch(SQLException e) {
+            System.out.println(e);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        // product update btn:
+        
+        int pid = Integer.parseInt(p_id.getText());
+        String pname = p_name.getText();
+        String pcat = (String)p_cat.getSelectedItem().toString();
+        int pqty = Integer.parseInt(p_qty.getText());
+        int pp = Integer.parseInt(p_p.getText());
+        String pcom = p_com.getText();
+        String pdes = p_des.getText();
+        
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            s.executeUpdate(" UPDATE product SET pid = '"+pid+"', pname = '"+pname+"', cat = '"+pcat+"', qty = '"+pqty+"', price = '"+pp+"', com = '"+pcom+"', des = '"+pdes+"' ");
+            
+        }catch(SQLException e) {
+            System.out.println(e);
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void p_comActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_comActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_p_comActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea c_adr;
-    private javax.swing.JTextField c_age;
-    private javax.swing.JTextField c_cont;
-    private javax.swing.JTextField c_fname;
-    private javax.swing.JComboBox<String> c_gen;
-    private javax.swing.JTextField c_id;
-    private javax.swing.JTextField c_search;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -379,6 +510,7 @@ public class product extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
@@ -387,8 +519,17 @@ public class product extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JComboBox<String> p_cat;
+    private javax.swing.JTextField p_com;
+    private javax.swing.JTextArea p_des;
+    private javax.swing.JTextField p_id;
+    private javax.swing.JTextField p_name;
+    private javax.swing.JTextField p_p;
+    private javax.swing.JTextField p_qty;
+    private javax.swing.JTextField p_search;
     // End of variables declaration//GEN-END:variables
 }
