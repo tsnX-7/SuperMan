@@ -107,6 +107,12 @@ public class Welcome extends javax.swing.JFrame {
             }
         });
 
+        pw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pwActionPerformed(evt);
+            }
+        });
+
         jLabel1.setFont(new java.awt.Font("Segoe UI Historic", 0, 14)); // NOI18N
         jLabel1.setText("Username:");
 
@@ -258,6 +264,10 @@ public class Welcome extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void pwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pwActionPerformed
 
     /**
      * @param args the command line arguments

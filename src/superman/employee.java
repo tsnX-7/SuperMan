@@ -4,7 +4,21 @@
  */
 package superman;
 
+import com.mysql.jdbc.Statement;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import java.util.Date;
+import javax.swing.JTextField;
 
 /**
  *
@@ -17,8 +31,55 @@ public class employee extends javax.swing.JPanel {
      */
     public employee() {
         initComponents();
+        tb_load();
+        
     }
-
+    java.util.Date date;
+    java.sql.Date sqlDate;
+            
+    public void tb_load() {
+        try {
+            DefaultTableModel dt = (DefaultTableModel) e_table.getModel();
+            dt.setRowCount(0);
+            
+            Statement s = (Statement) db.mycon().createStatement();
+            ResultSet rs = s.executeQuery(" SELECT * FROM employee");
+            
+            while(rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getString(1));
+                v.add(rs.getString(2));
+                v.add(rs.getString(3));
+                v.add(rs.getString(4));
+                v.add(rs.getString(5));
+                v.add(rs.getString(6));
+                v.add(rs.getString(7));
+                v.add(rs.getString(8));
+                v.add(rs.getString(9));
+                v.add(rs.getString(10));
+                
+                dt.addRow(v);
+                
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+     public void allset() {
+         tb_load();
+         
+        e_id.setText("");
+        e_fn.setText("");
+        e_ln.setText("");
+        e_gn.setSelectedItem(null);
+        e_ag.setText("");
+        e_cn.setText("");
+        e_ds.setSelectedItem(null);
+        e_ad.setText("");
+        e_jn.setDate(null);
+        e_pw.setText("");
+     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,27 +91,29 @@ public class employee extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        e_fn = new javax.swing.JTextField();
+        e_ln = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        e_ag = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        e_cn = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jTextField8 = new javax.swing.JTextField();
+        e_ds = new javax.swing.JComboBox<>();
+        e_id = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        e_ad = new javax.swing.JTextArea();
         jLabel14 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        e_gn = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        e_jn = new com.toedter.calendar.JDateChooser();
         jLabel17 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        e_pw = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        e_table = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -59,7 +122,7 @@ public class employee extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1360, 690));
@@ -68,27 +131,27 @@ public class employee extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTextField3.setAlignmentX(0.0F);
-        jTextField3.setAlignmentY(0.0F);
-        jTextField3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        e_fn.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        e_fn.setAlignmentX(0.0F);
+        e_fn.setAlignmentY(0.0F);
+        e_fn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        e_fn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                e_fnActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 300, 30));
+        jPanel2.add(e_fn, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 300, 30));
 
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTextField4.setAlignmentX(0.0F);
-        jTextField4.setAlignmentY(0.0F);
-        jTextField4.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        e_ln.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        e_ln.setAlignmentX(0.0F);
+        e_ln.setAlignmentY(0.0F);
+        e_ln.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        e_ln.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                e_lnActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 300, 30));
+        jPanel2.add(e_ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 300, 30));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel2.setText("First name:");
@@ -106,64 +169,64 @@ public class employee extends javax.swing.JPanel {
         jLabel12.setText("Employee ID:");
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, 30));
 
-        jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTextField5.setAlignmentX(0.0F);
-        jTextField5.setAlignmentY(0.0F);
-        jTextField5.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        e_ag.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        e_ag.setAlignmentX(0.0F);
+        e_ag.setAlignmentY(0.0F);
+        e_ag.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        e_ag.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                e_agActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, 80, 30));
+        jPanel2.add(e_ag, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, 80, 30));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel13.setText("Joining date:");
         jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 120, 40));
 
-        jTextField6.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTextField6.setAlignmentX(0.0F);
-        jTextField6.setAlignmentY(0.0F);
-        jTextField6.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        e_cn.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        e_cn.setAlignmentX(0.0F);
+        e_cn.setAlignmentY(0.0F);
+        e_cn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        e_cn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                e_cnActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 300, 30));
+        jPanel2.add(e_cn, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 300, 30));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel15.setText("Address:");
         jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 80, 30));
 
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Cashier", "Sales stuff", "Store keeper", "Worker", " " }));
-        jComboBox2.setSelectedIndex(-1);
-        jComboBox2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        e_ds.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        e_ds.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Cashier", "Sales stuff", "Store keeper", "Worker", " " }));
+        e_ds.setSelectedIndex(-1);
+        e_ds.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        e_ds.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                e_dsActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 80, 30));
+        jPanel2.add(e_ds, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 80, 30));
 
-        jTextField8.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTextField8.setAlignmentX(0.0F);
-        jTextField8.setAlignmentY(0.0F);
-        jTextField8.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+        e_id.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        e_id.setAlignmentX(0.0F);
+        e_id.setAlignmentY(0.0F);
+        e_id.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        e_id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
+                e_idActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 300, 30));
+        jPanel2.add(e_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 300, 30));
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextArea2.setRows(4);
-        jTextArea2.setTabSize(4);
-        jTextArea2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jScrollPane3.setViewportView(jTextArea2);
+        e_ad.setColumns(20);
+        e_ad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        e_ad.setRows(4);
+        e_ad.setTabSize(4);
+        e_ad.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        jScrollPane3.setViewportView(e_ad);
 
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 300, 90));
 
@@ -171,32 +234,44 @@ public class employee extends javax.swing.JPanel {
         jLabel14.setText("Gender:");
         jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 120, 30));
 
-        jComboBox3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", " ", " " }));
-        jComboBox3.setSelectedIndex(-1);
-        jComboBox3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        e_gn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        e_gn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", " ", " " }));
+        e_gn.setSelectedIndex(-1);
+        e_gn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        e_gn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                e_gnActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 80, 30));
+        jPanel2.add(e_gn, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 80, 30));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel16.setText("Designation:");
         jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 120, 30));
 
-        jDateChooser1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jPanel2.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 380, 100, 30));
+        e_jn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        e_jn.setDateFormatString("yyyy-MM-dd");
+        jPanel2.add(e_jn, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 380, 160, 30));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel17.setText("Contact no:");
         jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, 30));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 490, 420));
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel11.setText("Set Password:");
+        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, -1, 30));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        e_pw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                e_pwActionPerformed(evt);
+            }
+        });
+        jPanel2.add(e_pw, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 430, 160, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 490, 480));
+
+        e_table.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
+        e_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -212,9 +287,9 @@ public class employee extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(e_table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 790, 570));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 810, 570));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -253,7 +328,7 @@ public class employee extends javax.swing.JPanel {
                 jTextField7ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 530, 10));
+        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 530, 10));
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jTextField2.setForeground(new java.awt.Color(153, 153, 153));
@@ -283,23 +358,33 @@ public class employee extends javax.swing.JPanel {
         });
         jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 30, 200, 20));
 
-        jButton1.setText("Edit");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 630, -1, -1));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Update");
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 650, 90, 30));
 
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setText("Delete");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 630, -1, -1));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 650, 90, 30));
 
+        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton4.setText("Save");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 630, -1, -1));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 650, 90, 30));
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
-        jLabel11.setText("Contact no:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 570, -1, 30));
+        jTextField1.setBackground(new java.awt.Color(77, 100, 89));
+        jTextField1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField1.setText("Add new employee");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 180, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -313,37 +398,37 @@ public class employee extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void e_lnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_lnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_e_lnActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void e_fnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_fnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_e_fnActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void e_agActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_agActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_e_agActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void e_cnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_cnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_e_cnActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void e_dsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_dsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_e_dsActionPerformed
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField7ActionPerformed
 
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+    private void e_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_idActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
+    }//GEN-LAST:event_e_idActionPerformed
 
     private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
         // TODO add your handling code here:
@@ -358,21 +443,61 @@ public class employee extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField2KeyTyped
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        // save btn for employee:
+        
+        String id = e_id.getText();
+        String fname = e_fn.getText();
+        String lname = e_ln.getText();
+        String gen = e_gn.getSelectedItem().toString();
+        String age = e_ag.getText();
+        String con = e_cn.getText();
+        String des = e_ds.getSelectedItem().toString();
+        String add = e_ad.getText();
+
+        Date date = e_jn.getDate();
+        String jdate = DateFormat.getDateInstance().format(date);
+
+        //System.out.println(jdate);
+        String pw = e_pw.getText();
+        
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            s.executeUpdate(" INSERT INTO employee(eid, efname, elname, egen, eage, econ, eadd, edes, ejoin, epw) VALUES('"+id+"', '"+fname+"','"+lname+"','"+gen+"','"+age+"','"+con+"','"+des+"','"+add+"','"+jdate+"','"+pw+"') ");
+            
+        }catch(SQLException e) {
+            System.out.println(e);
+        }
+        allset();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+    private void e_gnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_gnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+    }//GEN-LAST:event_e_gnActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void e_pwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_pwActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_e_pwActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea e_ad;
+    private javax.swing.JTextField e_ag;
+    private javax.swing.JTextField e_cn;
+    private javax.swing.JComboBox<String> e_ds;
+    private javax.swing.JTextField e_fn;
+    private javax.swing.JComboBox<String> e_gn;
+    private javax.swing.JTextField e_id;
+    private com.toedter.calendar.JDateChooser e_jn;
+    private javax.swing.JTextField e_ln;
+    private javax.swing.JTextField e_pw;
+    private javax.swing.JTable e_table;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -390,14 +515,8 @@ public class employee extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
 }
