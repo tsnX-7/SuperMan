@@ -5,12 +5,15 @@
 package superman;
 
 import com.mysql.jdbc.Statement;
+import java.awt.print.PrinterException;
 import java.sql.SQLException;
 import java.sql.*;
 import java.text.DecimalFormat;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,6 +45,8 @@ public class Billing extends javax.swing.JPanel {
         v.add(tot);
         
         dt.addRow(v);
+        calc();
+        payablecalc();
     }
     
     public void calc() {
@@ -52,8 +57,23 @@ public class Billing extends javax.swing.JPanel {
             total += val;
         }
         
-        DecimalFormat df = new DecimalFormat("00:00");
-        //subtot.setText(df.format(total));
+        DecimalFormat df = new DecimalFormat("00.00");
+        subtot.setText(df.format(total));
+    }
+    
+    public void payablecalc() {
+        double payable;
+        double sub = Double.parseDouble(subtot.getText());
+        double d = Double.parseDouble(dis.getText());
+        String s = sign.getSelectedItem().toString();
+        if(s.equals("%")) {
+            payable = sub - sub * d / 100;
+        }
+        else {
+            payable = sub - d;
+        }
+        DecimalFormat df = new DecimalFormat("00.00");
+        totpayable.setText(df.format(payable));
     }
     
     @SuppressWarnings("unchecked")
@@ -70,14 +90,11 @@ public class Billing extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTextField8 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jTextField9 = new javax.swing.JTextField();
-        bp_search = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -94,6 +111,27 @@ public class Billing extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         bp_table = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel12 = new javax.swing.JLabel();
+        cng = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        paid = new javax.swing.JTextField();
+        totpayable = new javax.swing.JTextField();
+        dis = new javax.swing.JTextField();
+        subtot = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        bp_search = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        b = new javax.swing.JTextArea();
+        sign = new javax.swing.JComboBox<>();
+        jButton8 = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1360, 690));
@@ -181,14 +219,6 @@ public class Billing extends javax.swing.JPanel {
         });
         jPanel2.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 530, 10));
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-25.png"))); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, 40, 30));
-
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -231,43 +261,7 @@ public class Billing extends javax.swing.JPanel {
         });
         jPanel5.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 530, 10));
 
-        bp_search.setFont(new java.awt.Font("Segoe UI", 2, 15)); // NOI18N
-        bp_search.setForeground(new java.awt.Color(153, 153, 153));
-        bp_search.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        bp_search.setText("     Search Product Name");
-        bp_search.setAlignmentX(0.0F);
-        bp_search.setAlignmentY(0.0F);
-        bp_search.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        bp_search.setDoubleBuffered(true);
-        bp_search.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                bp_searchFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                bp_searchFocusLost(evt);
-            }
-        });
-        bp_search.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bp_searchActionPerformed(evt);
-            }
-        });
-        bp_search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                bp_searchKeyTyped(evt);
-            }
-        });
-        jPanel5.add(bp_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 220, 30));
-
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-25.png"))); // NOI18N
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, 40, 30));
-
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, 170));
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, 100));
 
         jPanel7.setBackground(new java.awt.Color(0, 0, 0));
         jPanel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -395,11 +389,12 @@ public class Billing extends javax.swing.JPanel {
                         .addComponent(bp_qty)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel2.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 600, 80));
+        jPanel2.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 60, 600, 80));
 
+        bp_table.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bp_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -420,7 +415,7 @@ public class Billing extends javax.swing.JPanel {
             bp_table.getColumnModel().getColumn(4).setMaxWidth(100);
         }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 520, 420));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 520, 490));
 
         jButton6.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         jButton6.setText("Add to Cart");
@@ -429,9 +424,168 @@ public class Billing extends javax.swing.JPanel {
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 180, 130, 80));
+        jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 60, 130, 80));
+        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 520, -1, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 830));
+        jLabel12.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel12.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("TOTAL PAYABLE");
+        jLabel12.setOpaque(true);
+        jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 340, 150, 40));
+
+        cng.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        cng.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        cng.setText("0");
+        jPanel2.add(cng, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 570, 150, 40));
+
+        jLabel13.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel13.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("SUB-TOTAL");
+        jLabel13.setOpaque(true);
+        jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 160, 140, 40));
+
+        jLabel15.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel15.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("PAID");
+        jLabel15.setOpaque(true);
+        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 430, 150, 40));
+
+        jLabel16.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel16.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("CHANGE");
+        jLabel16.setOpaque(true);
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 530, 150, 40));
+
+        jLabel17.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel17.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("DISCOUNT");
+        jLabel17.setOpaque(true);
+        jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 250, 140, 40));
+
+        paid.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        paid.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        paid.setText("0");
+        jPanel2.add(paid, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 470, 150, 40));
+
+        totpayable.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        totpayable.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        totpayable.setText("0");
+        jPanel2.add(totpayable, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 380, 150, 40));
+
+        dis.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        dis.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        dis.setText("0");
+        dis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disActionPerformed(evt);
+            }
+        });
+        jPanel2.add(dis, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 290, 80, 40));
+
+        subtot.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        subtot.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        subtot.setText("0");
+        jPanel2.add(subtot, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 200, 140, 40));
+        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 430, -1, -1));
+
+        bp_search.setFont(new java.awt.Font("Segoe UI", 2, 15)); // NOI18N
+        bp_search.setForeground(new java.awt.Color(153, 153, 153));
+        bp_search.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        bp_search.setText("     Search Product Name");
+        bp_search.setAlignmentX(0.0F);
+        bp_search.setAlignmentY(0.0F);
+        bp_search.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        bp_search.setDoubleBuffered(true);
+        bp_search.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                bp_searchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                bp_searchFocusLost(evt);
+            }
+        });
+        bp_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bp_searchActionPerformed(evt);
+            }
+        });
+        bp_search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                bp_searchKeyTyped(evt);
+            }
+        });
+        jPanel2.add(bp_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 20, 220, 30));
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-25.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 20, 40, 30));
+
+        jButton3.setFont(new java.awt.Font("SimSun", 1, 30)); // NOI18N
+        jButton3.setText("Pay");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 340, 110, 80));
+
+        jButton5.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 430, 110, 80));
+        jButton5.setText("<html><center>Print<br />Receipt</center></html>");
+
+        jButton7.setFont(new java.awt.Font("SimSun-ExtB", 1, 30)); // NOI18N
+        jButton7.setText("DONE");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 530, 110, 80));
+
+        b.setColumns(20);
+        b.setRows(5);
+        jScrollPane3.setViewportView(b);
+
+        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 150, 440, 460));
+
+        sign.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        sign.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "%", "৳" }));
+        jPanel2.add(sign, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 290, 60, 40));
+
+        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton8.setText("Remove Item");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 620, -1, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 920));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -443,7 +597,10 @@ public class Billing extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1070, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -498,10 +655,6 @@ public class Billing extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_bp_searchKeyTyped
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // minus btn on qty:
         int i = Integer.parseInt(bp_qty.getText());
@@ -529,6 +682,25 @@ public class Billing extends javax.swing.JPanel {
         String name = bp_name.getText();
         int qty = Integer.parseInt(String.valueOf(bp_qty.getText()));
         addtable(name, unp, qty);
+        
+        
+        
+        ///Updating database of product qty after adding to cart
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            av_qty = av_qty - qty;
+            System.out.print(av_qty);
+            s.executeUpdate(" UPDATE product SET qty = '"+av_qty+"' WHERE pname='"+name+"' ");
+            
+        }catch(SQLException e) {
+            System.out.println(e);
+        }
+        bp_id.setText("");
+        bp_name.setText("");
+        bp_unit.setText("");
+        bp_qty.setText("0");
+        bp_tot.setText("");
+        
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void bp_totActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bp_totActionPerformed
@@ -543,8 +715,116 @@ public class Billing extends javax.swing.JPanel {
         bp_tot.setText(String.valueOf(i*unp));
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // generate receipt btn:
+        try{
+            b.setText("\t\tEnigma Super Store\n");
+            b.setText(b.getText()+"\t\tSUST IICT, Sylhet\n");
+            b.setText(b.getText()+"-----------------------------------------------------------------------------------------------\n");
+            b.setText(b.getText()+"# \tItem \t\tQty \tPrice\n");
+            b.setText(b.getText()+"-----------------------------------------------------------------------------------------------\n");
+            DefaultTableModel df = (DefaultTableModel) bp_table.getModel();
+            int numRow = bp_table.getRowCount();
+            for(int i=0; i<numRow; i++) {
+                String name = df.getValueAt(i, 1).toString();
+                String qty = df.getValueAt(i, 3).toString();
+                String price = df.getValueAt(i, 4).toString();
+                
+                b.setText(b.getText()+(i+1)+"\t"+name+"\t\tx "+qty+"\t"+price+"\n");
+            }
+            b.setText(b.getText()+"-----------------------------------------------------------------------------------------------\n");
+            b.setText(b.getText()+"\t\tSubtotal:\t"+subtot.getText()+"\n");
+            b.setText(b.getText()+"\t\tDiscount:\t"+dis.getText()+"\n");
+            b.setText(b.getText()+"\t\tTotal Payable:\t"+totpayable.getText()+"\n");
+            b.setText(b.getText()+"\t\tPaid:\t"+paid.getText()+"\n");
+            b.setText(b.getText()+"\t\tChange:\t"+cng.getText()+"\n\n\n");
+
+            b.setText(b.getText()+"\tThank you for shopping with us!\n");
+            b.setText(b.getText()+"\t***************\t");
+            b.setText(b.getText()+"Developed by: ");
+            
+
+        }catch(Exception e) {
+            System.out.println(e);
+        }
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    private void disActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disActionPerformed
+        // TODO add your handling code here:
+        payablecalc();
+    }//GEN-LAST:event_disActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Entering customer given amount:
+        payablecalc();
+        String val = JOptionPane.showInputDialog(this, "Please Enter yout amount");
+        paid.setText(val);
+        double pd = Double.parseDouble(paid.getText());
+        double pybl = Double.parseDouble(totpayable.getText());
+        double cn = pd - pybl;
+        DecimalFormat df = new DecimalFormat("00.00");
+        
+        if(cn >= 0)
+            cng.setText(df.format(cn));
+        else {
+            JOptionPane.showMessageDialog(null, 
+                              "Invalid Amount, Please re-enter your amount!", 
+                              "Error", 
+                              JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // Delete Some item from added cart:
+        DefaultTableModel dt = (DefaultTableModel) bp_table.getModel();
+        int rw = bp_table.getSelectedRow();
+        String rwname =  bp_table.getValueAt(bp_table.getSelectedRow(), 1).toString();
+        int rwqty = (int) bp_table.getValueAt(bp_table.getSelectedRow(), 3);
+
+        dt.removeRow(rw);
+        
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery(" SELECT * FROM product WHERE pname = '"+rwname+"'");
+            if(rs.next()) {
+                av_qty = Integer.parseInt(String.valueOf(rs.getString("qty")));
+            }
+            
+            
+            av_qty = av_qty + rwqty;
+            //System.out.print(av_qty);
+            s.executeUpdate(" UPDATE product SET qty = '"+av_qty+"' WHERE pname='"+rwname+"' ");
+            
+        }catch(SQLException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // Print Bill (download)
+        
+        try {
+            boolean ok = b.print();
+            if(ok) {
+                JOptionPane.showMessageDialog(null, "Succesfully Printed", "okay", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Printing", "NOT okay", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(PrinterException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea b;
     private javax.swing.JTextField bp_id;
     private javax.swing.JTextField bp_name;
     private javax.swing.JTextField bp_qty;
@@ -552,14 +832,24 @@ public class Billing extends javax.swing.JPanel {
     private javax.swing.JTable bp_table;
     private javax.swing.JTextField bp_tot;
     private javax.swing.JTextField bp_unit;
+    private javax.swing.JTextField cng;
+    private javax.swing.JTextField dis;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -576,8 +866,15 @@ public class Billing extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField paid;
+    private javax.swing.JComboBox<String> sign;
+    private javax.swing.JTextField subtot;
+    private javax.swing.JTextField totpayable;
     // End of variables declaration//GEN-END:variables
 }

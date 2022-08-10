@@ -50,6 +50,16 @@ public class product extends javax.swing.JPanel {
             System.out.println(e);
         }
     }
+    
+    public void allsetnull(){
+        p_id.setText("");
+        p_name.setText("");
+        p_cat.setSelectedItem(null);
+        p_p.setText("");
+        p_qty.setText("");
+        p_com.setText("");
+        p_des.setText("");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -424,6 +434,8 @@ public class product extends javax.swing.JPanel {
         } catch(SQLException e) {
             System.out.print(e);
         }
+        tb_load();
+        allsetnull();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -473,6 +485,8 @@ public class product extends javax.swing.JPanel {
         }catch(SQLException e) {
             System.out.println(e);
         }
+        tb_load();
+        allsetnull();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -488,11 +502,13 @@ public class product extends javax.swing.JPanel {
         
         try{
             Statement s = (Statement) db.mycon().createStatement();
-            s.executeUpdate(" UPDATE product SET pid = '"+pid+"', pname = '"+pname+"', cat = '"+pcat+"', qty = '"+pqty+"', price = '"+pp+"', com = '"+pcom+"', des = '"+pdes+"' ");
+            s.executeUpdate(" UPDATE product SET pid = '"+pid+"', pname = '"+pname+"', cat = '"+pcat+"', qty = '"+pqty+"', price = '"+pp+"', com = '"+pcom+"', des = '"+pdes+"' WHERE pname = '"+pname+"' ");
             
         }catch(SQLException e) {
             System.out.println(e);
         }
+        tb_load();
+        allsetnull();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void p_comActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_comActionPerformed

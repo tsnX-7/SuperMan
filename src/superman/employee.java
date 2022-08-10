@@ -35,7 +35,6 @@ public class employee extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
@@ -49,6 +48,7 @@ public class employee extends javax.swing.JPanel {
         jComboBox3 = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel17 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -59,6 +59,7 @@ public class employee extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1360, 690));
@@ -100,10 +101,6 @@ public class employee extends javax.swing.JPanel {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel10.setText("Age:");
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 40, 30));
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
-        jLabel11.setText("Contact no:");
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, 30));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel12.setText("Employee ID:");
@@ -192,6 +189,10 @@ public class employee extends javax.swing.JPanel {
         jDateChooser1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
         jPanel2.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 380, 100, 30));
 
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
+        jLabel17.setText("Contact no:");
+        jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, 30));
+
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 490, 420));
 
         jTable1.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
@@ -200,11 +201,11 @@ public class employee extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "First name", "Last name", "Gender", "Age", "Contact no", "Address", "Designation", "Joining date"
+                "ID", "First name", "Last name", "Gender", "Age", "Contact no", "Address", "Designation", "Joining date", "Password"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Byte.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Byte.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -213,7 +214,7 @@ public class employee extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 740, 570));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 790, 570));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -283,10 +284,10 @@ public class employee extends javax.swing.JPanel {
         jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 30, 200, 20));
 
         jButton1.setText("Edit");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 580, -1, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 630, -1, -1));
 
         jButton2.setText("Delete");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 580, -1, -1));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 630, -1, -1));
 
         jButton4.setText("Save");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -294,7 +295,11 @@ public class employee extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 580, -1, -1));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 630, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
+        jLabel11.setText("Contact no:");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 570, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -375,6 +380,7 @@ public class employee extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
