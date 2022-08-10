@@ -5,15 +5,23 @@
 package superman;
 
 import com.mysql.jdbc.Statement;
+import java.awt.EventQueue;
+import java.awt.event.KeyEvent;
+import java.util.List;
 import java.awt.print.PrinterException;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.sql.*;
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.*;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,7 +35,141 @@ public class Billing extends javax.swing.JPanel {
      */
     public Billing() {
         initComponents();
+        load_product();
+        autoSuggest();
     }
+    
+    private Vector<String> vp = new Vector<String>();
+    private JTextField tf;
+    private boolean hide_flag = false;
+    
+    //loading all existing products into vector "vp"
+    private void load_product() {
+        try{
+            Statement s = (Statement) db.mycon().createStatement(); 
+            ResultSet rs = s.executeQuery("SELECT pname FROM product");
+            
+            while(rs.next()) {
+                  String st = rs.getString("pname");
+                  vp.addElement(st);
+            }
+            
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
+        Collections.sort(vp);
+    }
+    
+    private void setModel(DefaultComboBoxModel mdl, String str) {
+        ps.setModel(mdl);
+        ps.setSelectedIndex(-1);
+        tf.setText(str);
+    }
+    
+    private static DefaultComboBoxModel getSuggestedModel(List<String> list, String text) {
+        DefaultComboBoxModel m = new DefaultComboBoxModel();
+        for(String i: list) {
+            if(i.startsWith(text)) {
+                m.addElement(i);
+            }
+        }
+        return m;
+        
+    }
+    
+    public void search_it() {
+    String sr = ps.getSelectedItem().toString();
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery(" SELECT * FROM product WHERE pname = '"+sr+"'");
+            
+            if(rs.next()) {
+                  bp_id.setText(rs.getString("pid"));
+                  bp_name.setText(rs.getString("pname"));
+                  bp_unit.setText(String.valueOf(rs.getString("price")));
+                  unp = Double.parseDouble(String.valueOf(rs.getString("price")));
+                  av_qty = Integer.parseInt(String.valueOf(rs.getString("qty")));
+
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
+    }
+    
+    void autoSuggest() {
+        ps.setEditable(true);
+        tf = (JTextField) ps.getEditor().getEditorComponent();
+        tf.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        String text = tf.getText();
+                        if(text.length() == 0) {
+                            ps.hidePopup();
+                            setModel(new DefaultComboBoxModel(vp), text);
+                        }
+                        else {
+                            DefaultComboBoxModel m = getSuggestedModel(vp,text);
+                            
+                            if(m.getSize()==0 || hide_flag) {
+                                ps.hidePopup();
+                                hide_flag = false;
+                            }
+                            else{
+                                setModel(m, text);
+                                ps.showPopup();
+                            }
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                String text = tf.getText();
+                int code = e.getKeyCode();
+                if(code==KeyEvent.VK_ENTER) {
+                    if(vp.contains(text)) {
+                        //vp.addElement(text);
+                        Collections.sort(vp);
+                        setModel(getSuggestedModel(vp, text), text);
+                    }
+                    hide_flag = true;
+                }
+                else if(code==KeyEvent.VK_ESCAPE) {
+                    hide_flag = true;
+                }
+                else if(code==KeyEvent.VK_RIGHT) {
+                    for(int i=0; i<vp.size(); i++) {
+                       String str = vp.elementAt(i);
+                       if(str.startsWith(text)){
+                           ps.setSelectedIndex(-1);
+                           tf.setText(str);
+                           return;
+                       }
+                    }
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                search_it();
+            }
+        });
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public int av_qty;
     public double unp;
     
@@ -132,6 +274,7 @@ public class Billing extends javax.swing.JPanel {
         b = new javax.swing.JTextArea();
         sign = new javax.swing.JComboBox<>();
         jButton8 = new javax.swing.JButton();
+        ps = new javax.swing.JComboBox<>();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1360, 690));
@@ -365,7 +508,6 @@ public class Billing extends javax.swing.JPanel {
                         .addComponent(bp_tot, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(23, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel11)
                         .addGap(65, 65, 65))))
         );
@@ -585,6 +727,23 @@ public class Billing extends javax.swing.JPanel {
         });
         jPanel2.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 620, -1, -1));
 
+        ps.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                psMouseClicked(evt);
+            }
+        });
+        ps.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                psActionPerformed(evt);
+            }
+        });
+        ps.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                psKeyPressed(evt);
+            }
+        });
+        jPanel2.add(ps, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 12, 190, 30));
+
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 920));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -614,6 +773,24 @@ public class Billing extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        String sr = ps.getSelectedItem().toString();
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery(" SELECT * FROM product WHERE pname = '"+sr+"'");
+            
+            if(rs.next()) {
+                  bp_id.setText(rs.getString("pid"));
+                  bp_name.setText(rs.getString("pname"));
+                  bp_unit.setText(String.valueOf(rs.getString("price")));
+                  unp = Double.parseDouble(String.valueOf(rs.getString("price")));
+                  av_qty = Integer.parseInt(String.valueOf(rs.getString("qty")));
+
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
@@ -679,11 +856,15 @@ public class Billing extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // add to cart btn:
+        ps.setSelectedItem(null);
         String name = bp_name.getText();
         int qty = Integer.parseInt(String.valueOf(bp_qty.getText()));
-        addtable(name, unp, qty);
-        
-        
+        if(qty>0) {
+            addtable(name, unp, qty);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Invalid item quantity!", "ERROR ADDING ITEM", JOptionPane.WARNING_MESSAGE);
+        }
         
         ///Updating database of product qty after adding to cart
         try{
@@ -822,6 +1003,36 @@ public class Billing extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void psActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psActionPerformed
+        // combox Suggestion selection:
+    }//GEN-LAST:event_psActionPerformed
+
+    private void psMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_psMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_psMouseClicked
+
+    private void psKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_psKeyPressed
+        // TODO add your handling code here:
+        String sr = ps.getSelectedItem().toString();
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery(" SELECT * FROM product WHERE pname = '"+sr+"'");
+            
+            if(rs.next()) {
+                  bp_id.setText(rs.getString("pid"));
+                  bp_name.setText(rs.getString("pname"));
+                  bp_unit.setText(String.valueOf(rs.getString("price")));
+                  unp = Double.parseDouble(String.valueOf(rs.getString("price")));
+                  av_qty = Integer.parseInt(String.valueOf(rs.getString("qty")));
+
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
+    }//GEN-LAST:event_psKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea b;
@@ -873,6 +1084,7 @@ public class Billing extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTextField paid;
+    private javax.swing.JComboBox<String> ps;
     private javax.swing.JComboBox<String> sign;
     private javax.swing.JTextField subtot;
     private javax.swing.JTextField totpayable;

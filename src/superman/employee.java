@@ -118,11 +118,12 @@ public class employee extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        e_search = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1360, 690));
@@ -259,16 +260,16 @@ public class employee extends javax.swing.JPanel {
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel11.setText("Set Password:");
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, -1, 30));
+        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, -1, 40));
 
         e_pw.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 e_pwActionPerformed(evt);
             }
         });
-        jPanel2.add(e_pw, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 430, 160, -1));
+        jPanel2.add(e_pw, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, 220, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 490, 480));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 490, 460));
 
         e_table.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
         e_table.setModel(new javax.swing.table.DefaultTableModel(
@@ -330,41 +331,52 @@ public class employee extends javax.swing.JPanel {
         });
         jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 530, 10));
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField2.setText("     Search via ID");
-        jTextField2.setAlignmentX(0.0F);
-        jTextField2.setAlignmentY(0.0F);
-        jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jTextField2.setDoubleBuffered(true);
-        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+        e_search.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        e_search.setForeground(new java.awt.Color(153, 153, 153));
+        e_search.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        e_search.setText("     Search via ID");
+        e_search.setToolTipText("");
+        e_search.setAlignmentX(0.0F);
+        e_search.setAlignmentY(0.0F);
+        e_search.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        e_search.setDoubleBuffered(true);
+        e_search.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextField2FocusGained(evt);
+                e_searchFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField2FocusLost(evt);
+                e_searchFocusLost(evt);
             }
         });
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        e_search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                e_searchActionPerformed(evt);
             }
         });
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+        e_search.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField2KeyTyped(evt);
+                e_searchKeyTyped(evt);
             }
         });
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 30, 200, 20));
+        jPanel1.add(e_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 20, 200, 30));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Update");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 650, 90, 30));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 630, 90, 30));
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setText("Delete");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 650, 90, 30));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 630, 90, 30));
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton4.setText("Save");
@@ -373,7 +385,7 @@ public class employee extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 650, 90, 30));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 630, 90, 30));
 
         jTextField1.setBackground(new java.awt.Color(77, 100, 89));
         jTextField1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -385,6 +397,14 @@ public class employee extends javax.swing.JPanel {
             }
         });
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 180, 50));
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-25.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 20, 30, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -406,9 +426,30 @@ public class employee extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_e_fnActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void e_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_searchActionPerformed
+        // search employee id:
+        String sr = e_search.getText();
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery(" SELECT * FROM employee WHERE eid = '"+sr+"'");
+            
+            if(rs.next()) {
+                  e_id.setText(rs.getString("eid"));
+                  e_fn.setText(rs.getString("efname"));
+                  e_ln.setText(rs.getString("elname"));
+                  e_gn.setSelectedItem(rs.getString("egen"));
+                  e_ag.setText(rs.getString("eage"));
+                  e_cn.setText(rs.getString("econ"));
+                  e_ad.setText(rs.getString("eadd"));
+                  e_ds.setSelectedItem(rs.getString("edes"));
+                  e_pw.setText(rs.getString("epw"));
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
+    }//GEN-LAST:event_e_searchActionPerformed
 
     private void e_agActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_agActionPerformed
         // TODO add your handling code here:
@@ -430,17 +471,17 @@ public class employee extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_e_idActionPerformed
 
-    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
+    private void e_searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_e_searchFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2FocusGained
+    }//GEN-LAST:event_e_searchFocusGained
 
-    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
+    private void e_searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_e_searchFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2FocusLost
+    }//GEN-LAST:event_e_searchFocusLost
 
-    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+    private void e_searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_e_searchKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2KeyTyped
+    }//GEN-LAST:event_e_searchKeyTyped
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // save btn for employee:
@@ -482,6 +523,43 @@ public class employee extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_e_pwActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Update employee info:
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // search button on employee (mouse click)
+        String sr = e_search.getText();
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery(" SELECT * FROM employee WHERE eid = '"+sr+"'");
+            
+            if(rs.next()) {
+                  e_id.setText(rs.getString("eid"));
+                  e_fn.setText(rs.getString("efname"));
+                  e_ln.setText(rs.getString("elname"));
+                  e_gn.setSelectedItem(rs.getString("egen"));
+                  e_ag.setText(rs.getString("eage"));
+                  e_cn.setText(rs.getString("econ"));
+                  e_ad.setText(rs.getString("eadd"));
+                  e_ds.setSelectedItem(rs.getString("edes"));
+                  e_pw.setText(rs.getString("epw"));
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Delete employee from table:
+        DefaultTableModel dt = (DefaultTableModel) e_table.getModel();
+        int rw = e_table.getSelectedRow();
+        dt.removeRow(rw);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea e_ad;
@@ -494,9 +572,11 @@ public class employee extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser e_jn;
     private javax.swing.JTextField e_ln;
     private javax.swing.JTextField e_pw;
+    private javax.swing.JTextField e_search;
     private javax.swing.JTable e_table;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -516,7 +596,6 @@ public class employee extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
 }
