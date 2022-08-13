@@ -101,12 +101,12 @@ public class SellerHome extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Logged in as: ");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 10, 100, 30));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 10, 100, 30));
 
         logged.setBackground(new java.awt.Color(0, 0, 0));
         logged.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         logged.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel2.add(logged, new org.netbeans.lib.awtextra.AbsoluteConstraints(1280, 0, 140, 50));
+        jPanel2.add(logged, new org.netbeans.lib.awtextra.AbsoluteConstraints(1420, 10, 70, 30));
 
         jButton1.setBackground(new java.awt.Color(86, 180, 211));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-logout-20.png"))); // NOI18N
@@ -117,7 +117,7 @@ public class SellerHome extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1460, 10, 30, 30));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1490, 10, 30, 30));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1540, 110));
 
@@ -245,7 +245,7 @@ public class SellerHome extends javax.swing.JFrame {
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // Product tab
-        product prod = new product();
+        SellerProduct prod = new SellerProduct();
         jpload.jPanelLoader(panel_load, prod);
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
@@ -266,6 +266,7 @@ public class SellerHome extends javax.swing.JFrame {
         //Billing bp = new Billing();
         Billing bill = new Billing();
         jpload.jPanelLoader(panel_load, bill);
+        
     }//GEN-LAST:event_jToggleButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

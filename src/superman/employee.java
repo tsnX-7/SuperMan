@@ -18,7 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import java.util.Date;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -41,6 +43,18 @@ public class employee extends javax.swing.JPanel {
         try {
             DefaultTableModel dt = (DefaultTableModel) e_table.getModel();
             dt.setRowCount(0);
+            
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            e_table.setDefaultRenderer(String.class, centerRenderer);
+            
+            //DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            int numCol = dt.getColumnCount();
+            for(int i=0; i<numCol; i++)
+            e_table.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+            
+            ((DefaultTableCellRenderer)e_table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             
             Statement s = (Statement) db.mycon().createStatement();
             ResultSet rs = s.executeQuery(" SELECT * FROM employee");
@@ -269,7 +283,7 @@ public class employee extends javax.swing.JPanel {
         });
         jPanel2.add(e_pw, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, 220, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 490, 460));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 490, 450));
 
         e_table.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
         e_table.setModel(new javax.swing.table.DefaultTableModel(
@@ -283,14 +297,22 @@ public class employee extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Byte.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        e_table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(e_table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 810, 570));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, 770, 580));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -309,7 +331,7 @@ public class employee extends javax.swing.JPanel {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,7 +351,7 @@ public class employee extends javax.swing.JPanel {
                 jTextField7ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 530, 10));
+        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 490, 10));
 
         e_search.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         e_search.setForeground(new java.awt.Color(153, 153, 153));
@@ -367,7 +389,7 @@ public class employee extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 630, 90, 30));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 630, 90, 30));
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setText("Delete");
@@ -376,7 +398,7 @@ public class employee extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 630, 90, 30));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 630, 90, 30));
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton4.setText("Save");
@@ -385,7 +407,7 @@ public class employee extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 630, 90, 30));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 630, 90, 30));
 
         jTextField1.setBackground(new java.awt.Color(77, 100, 89));
         jTextField1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -396,7 +418,7 @@ public class employee extends javax.swing.JPanel {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 180, 50));
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 180, 30));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-25.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -473,6 +495,7 @@ public class employee extends javax.swing.JPanel {
 
     private void e_searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_e_searchFocusGained
         // TODO add your handling code here:
+        e_search.setText("");
     }//GEN-LAST:event_e_searchFocusGained
 
     private void e_searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_e_searchFocusLost
@@ -525,7 +548,30 @@ public class employee extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Update employee info:
+        String id = e_id.getText();
+        String fname = e_fn.getText();
+        String lname = e_ln.getText();
+        String gen = e_gn.getSelectedItem().toString();
+        String age = e_ag.getText();
+        String con = e_cn.getText();
+        String des = e_ds.getSelectedItem().toString();
+        String add = e_ad.getText();
+
+        Date date = e_jn.getDate();
+        String jdate = DateFormat.getDateInstance().format(date);
+
+        //System.out.println(jdate);
+        String pw = e_pw.getText();
         
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+            s.executeUpdate(" UPDATE employee SET eid = '"+id+"', efname = '"+fname+"', elname = '"+lname+"', egen = '"+gen+"', eage = '"+age+"', econ = '"+con+"', eadd = '"+des+"', edes = '"+add+"', ejoin = '"+jdate+"', epw = '"+pw+"' ");
+            
+        }catch(SQLException e) {
+            System.out.println(e);
+        }
+        allset();
+    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -558,6 +604,7 @@ public class employee extends javax.swing.JPanel {
         DefaultTableModel dt = (DefaultTableModel) e_table.getModel();
         int rw = e_table.getSelectedRow();
         dt.removeRow(rw);
+        allset();
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

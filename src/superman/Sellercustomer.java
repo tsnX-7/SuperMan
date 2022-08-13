@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,6 +33,18 @@ public class Sellercustomer extends javax.swing.JPanel {
         try {
             DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
             dt.setRowCount(0);
+            
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            jTable1.setDefaultRenderer(String.class, centerRenderer);
+            
+            //DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            int numCol = dt.getColumnCount();
+            for(int i=0; i<numCol; i++)
+            jTable1.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+            
+            ((DefaultTableCellRenderer)jTable1.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             
             Statement s = (Statement) db.mycon().createStatement();
             ResultSet rs = s.executeQuery(" SELECT * FROM customer");

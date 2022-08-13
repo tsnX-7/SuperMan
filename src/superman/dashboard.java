@@ -76,7 +76,8 @@ public class dashboard extends javax.swing.JPanel {
 
         panel_load.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 50));
 
-        jTextField7.setBackground(new java.awt.Color(102, 255, 255));
+        jTextField7.setBackground(new java.awt.Color(0, 204, 204));
+        jTextField7.setBorder(null);
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField7ActionPerformed(evt);

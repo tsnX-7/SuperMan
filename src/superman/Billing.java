@@ -13,6 +13,8 @@ import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.sql.*;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -22,7 +24,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import static superman.Welcome.username;
 
 /**
  *
@@ -49,6 +53,19 @@ public class Billing extends javax.swing.JPanel {
     //loading all existing products into vector "vp"
     private void load_product() {
         try{
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            bp_table.setDefaultRenderer(String.class, centerRenderer);
+            
+            //DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            //int numCol = dt.getColumnCount();
+            for(int i=0; i<5; i++)
+            bp_table.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+            
+            ((DefaultTableCellRenderer)bp_table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+            
+            
             Statement s = (Statement) db.mycon().createStatement(); 
             ResultSet rs = s.executeQuery("SELECT pname FROM product");
             
@@ -449,6 +466,7 @@ public class Billing extends javax.swing.JPanel {
             }
         ));
         bp_table.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bp_table.getTableHeader().setReorderingAllowed(false);
         bp_table.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 bp_tablePropertyChange(evt);
@@ -554,6 +572,11 @@ public class Billing extends javax.swing.JPanel {
         subtot.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         subtot.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         subtot.setText("0");
+        subtot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subtotActionPerformed(evt);
+            }
+        });
         panel_load.add(subtot, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 200, 140, 40));
         panel_load.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 430, -1, -1));
 
@@ -766,31 +789,52 @@ public class Billing extends javax.swing.JPanel {
         // generate receipt btn:
         if(pay1==true) {
             bill1 = true;
+                                    System.out.println("npw"+username);
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy \t\t HH:mm:ss");  
+            LocalDateTime now = LocalDateTime.now();
+            
+            DecimalFormat df = new DecimalFormat("00.00");
+            
+            
             try{
-            b.setText("\t\tEnigma Super Store\n");
-            b.setText(b.getText()+"\t\tSUST IICT, Sylhet\n");
-            b.setText(b.getText()+"-----------------------------------------------------------------------------------------------\n");
+            b.setText("\t             Enigma Super Store\n");
+            b.setText(b.getText()+"\t           SUST IICT, Sylhet-3114\n\n");
+            b.setText(b.getText()+"Bill # 6509\n");
+            b.setText(b.getText()+"Sold by: "+username+"\n");
+            b.setText(b.getText()+"Billing time: "+dtf.format(now)+"\n\n");
+            b.setText(b.getText()+"=======================================================\n");
             b.setText(b.getText()+"# \tItem \t\tQty \tPrice\n");
-            b.setText(b.getText()+"-----------------------------------------------------------------------------------------------\n");
-            DefaultTableModel df = (DefaultTableModel) bp_table.getModel();
+            b.setText(b.getText()+"=======================================================\n");
+            DefaultTableModel dt = (DefaultTableModel) bp_table.getModel();
             int numRow = bp_table.getRowCount();
             for(int i=0; i<numRow; i++) {
-                String name = df.getValueAt(i, 1).toString();
-                String qty = df.getValueAt(i, 3).toString();
-                String price = df.getValueAt(i, 4).toString();
+                String name = dt.getValueAt(i, 1).toString();
+                String qty = dt.getValueAt(i, 3).toString();
+                String price = dt.getValueAt(i, 4).toString();
                 
                 b.setText(b.getText()+(i+1)+"\t"+name+"\t\tx "+qty+"\t"+price+"\n");
             }
             b.setText(b.getText()+"-----------------------------------------------------------------------------------------------\n");
-            b.setText(b.getText()+"\t\tSubtotal:\t"+subtot.getText()+"\n");
-            b.setText(b.getText()+"\t\tDiscount:\t"+dis.getText()+"\n");
-            b.setText(b.getText()+"\t\tTotal Payable:\t"+totpayable.getText()+"\n");
-            b.setText(b.getText()+"\t\tPaid:\t"+paid.getText()+"\n");
-            b.setText(b.getText()+"\t\tChange:\t"+cng.getText()+"\n\n\n");
+            b.setText(b.getText()+"\t\t\tSubtotal:\t"+subtot.getText()+"\n");
+            double d = Double.parseDouble(subtot.getText()) - Double.parseDouble(totpayable.getText());
+            //String dd = String.valueOf(d);
+            //String dd = Double.toString(d);
+            String s = sign.getSelectedItem().toString();
+            if(!s.equals("%")) b.setText(b.getText()+"\t");
+            b.setText(b.getText()+"\t\t\tDiscount:");
+            if(s.equals("%")) b.setText(b.getText()+" ("+dis.getText()+"%)");
+            b.setText(b.getText() + "\t" + String.valueOf(df.format(d)) + "\n");
+            b.setText(b.getText()+"\t\t\tTotal Payable:\t"+totpayable.getText()+"\n");
+            b.setText(b.getText()+"\t\t\tPaid:\t"+paid.getText()+"\n");
+            double cg = Double.parseDouble(cng.getText());
+            int cgg = (int) cg;
+            //String cggg = String.valueOf(cgg);
+            b.setText(b.getText()+"\t\t            Change: (rounding off)\t"+String.valueOf(cgg)+"\n\n\n");
 
-            b.setText(b.getText()+"\tThank you for shopping with us!\n");
-            b.setText(b.getText()+"\t***************\t");
-            b.setText(b.getText()+"Developed by: ");
+            b.setText(b.getText()+"\t          Thank you for shopping with us!\n\n");
+            b.setText(b.getText()+"\t****************************************************\n\n");
+            b.setText(b.getText()+"\t          © Developed by: Team ENiGMA\n");
             
 
         }catch(Exception e) {
@@ -825,6 +869,7 @@ public class Billing extends javax.swing.JPanel {
             DecimalFormat df = new DecimalFormat("00.00");
 
             if(cn >= 0) {
+                
                 paid.setText(val);
                 cng.setText(df.format(cn));
                 pay1 = true;
@@ -954,6 +999,10 @@ public class Billing extends javax.swing.JPanel {
         bp_table.setDefaultEditor(Object.class, null);
 
     }//GEN-LAST:event_bp_tablePropertyChange
+
+    private void subtotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subtotActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_subtotActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

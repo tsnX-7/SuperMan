@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,6 +34,19 @@ public class customer extends javax.swing.JPanel {
             DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
             dt.setRowCount(0);
             
+            
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            jTable1.setDefaultRenderer(String.class, centerRenderer);
+            
+            //DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            int numCol = dt.getColumnCount();
+            for(int i=0; i<numCol; i++)
+            jTable1.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+            
+            ((DefaultTableCellRenderer)jTable1.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+            
             Statement s = (Statement) db.mycon().createStatement();
             ResultSet rs = s.executeQuery(" SELECT * FROM customer");
             
@@ -52,6 +67,19 @@ public class customer extends javax.swing.JPanel {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+    
+    public void allset() {
+        tb_load();
+        
+         c_id.setText("");
+                  c_fn.setText("");
+                  c_ln.setText("");
+                  c_gn.setSelectedItem(null);
+                  c_ag.setText("");
+                  c_cn.setText("");
+                  c_ad.setText("");
+                  c_st.setSelectedItem(null);
     }
     
     @SuppressWarnings("unchecked")
@@ -230,11 +258,19 @@ public class customer extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, 740, 570));
@@ -304,7 +340,7 @@ public class customer extends javax.swing.JPanel {
                 c_searchKeyTyped(evt);
             }
         });
-        jPanel1.add(c_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 30, 200, 20));
+        jPanel1.add(c_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 20, 200, 30));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-25.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -312,7 +348,7 @@ public class customer extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 30, 30, 20));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 20, 30, 30));
 
         jButton7.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton7.setText("Add Customer");
@@ -350,7 +386,7 @@ public class customer extends javax.swing.JPanel {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 180, 50));
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 170, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -480,6 +516,7 @@ public class customer extends javax.swing.JPanel {
         }catch(SQLException e) {
             System.out.println(e);
         }
+        allset();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -500,19 +537,33 @@ public class customer extends javax.swing.JPanel {
         }catch(SQLException e) {
             System.out.println(e);
         }
-
+        allset();
         
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // delete button on customer
-        String id = c_search.getText();
-        try {
+        DefaultTableModel dtt = (DefaultTableModel) jTable1.getModel();
+        int rw = jTable1.getSelectedRow();
+        String id =  jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        //int rwqty = (int) jTable2.getValueAt(jTable2.getSelectedRow(), 3);
+
+        dtt.removeRow(rw);
+        
+        //calc();
+        //payablecalc();
+        
+        try{
             Statement s = (Statement) db.mycon().createStatement();
-            s.executeUpdate(" DELETE from customer WHERE cid = '"+id+"' ");
-        } catch(SQLException e) {
-            System.out.print(e);
+            
+            int rs = s.executeUpdate(" DELETE FROM customer WHERE cid = '"+id+"'");
+            
+            
+        }catch(SQLException e) {
+            System.out.println(e);
         }
+
+        allset();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

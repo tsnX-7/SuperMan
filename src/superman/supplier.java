@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,6 +34,18 @@ public class supplier extends javax.swing.JPanel {
         try {
             DefaultTableModel dt = (DefaultTableModel) s_table.getModel();
             dt.setRowCount(0);
+            
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            s_table.setDefaultRenderer(String.class, centerRenderer);
+            
+            //DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            int numCol = dt.getColumnCount();
+            for(int i=0; i<numCol; i++)
+            s_table.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+            
+            ((DefaultTableCellRenderer)s_table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             
             Statement s = (Statement) db.mycon().createStatement();
             ResultSet rs = s.executeQuery(" SELECT * FROM supplier");
@@ -91,10 +105,11 @@ public class supplier extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        s_search = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1360, 690));
@@ -176,7 +191,7 @@ public class supplier extends javax.swing.JPanel {
 
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 300, 90));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 490, 400));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 490, 360));
 
         s_table.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
         s_table.setModel(new javax.swing.table.DefaultTableModel(
@@ -190,14 +205,22 @@ public class supplier extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        s_table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(s_table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 740, 570));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 730, 570));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -216,7 +239,7 @@ public class supplier extends javax.swing.JPanel {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,59 +259,70 @@ public class supplier extends javax.swing.JPanel {
                 jTextField7ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 530, 10));
+        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 490, 10));
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField2.setText("     Search via comapny name");
-        jTextField2.setAlignmentX(0.0F);
-        jTextField2.setAlignmentY(0.0F);
-        jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
-        jTextField2.setDoubleBuffered(true);
-        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+        s_search.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        s_search.setForeground(new java.awt.Color(153, 153, 153));
+        s_search.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        s_search.setText("     Search via comapny name");
+        s_search.setAlignmentX(0.0F);
+        s_search.setAlignmentY(0.0F);
+        s_search.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
+        s_search.setDoubleBuffered(true);
+        s_search.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextField2FocusGained(evt);
+                s_searchFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField2FocusLost(evt);
+                s_searchFocusLost(evt);
             }
         });
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        s_search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                s_searchActionPerformed(evt);
             }
         });
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+        s_search.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField2KeyTyped(evt);
+                s_searchKeyTyped(evt);
             }
         });
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 30, 200, 20));
+        jPanel1.add(s_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 20, 200, 30));
 
-        jButton1.setText("Edit");
+        jButton1.setFont(new java.awt.Font("Segoe UI Historic", 1, 14)); // NOI18N
+        jButton1.setText("Update");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 580, -1, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 530, 100, 40));
 
+        jButton2.setFont(new java.awt.Font("Segoe UI Historic", 1, 14)); // NOI18N
         jButton2.setText("Delete");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 580, -1, -1));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 530, 90, 40));
 
+        jButton4.setFont(new java.awt.Font("Segoe UI Historic", 1, 14)); // NOI18N
         jButton4.setText("Save");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 580, -1, -1));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 530, 90, 40));
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-25.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 20, 30, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -308,9 +342,26 @@ public class supplier extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_s_nActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void s_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s_searchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+        String sr = s_search.getText();
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+
+            ResultSet rs = s.executeQuery(" SELECT * FROM supplier WHERE scomp = '"+sr+"'");
+
+            if(rs.next()) {
+                s_com.setText(rs.getString("scomp"));
+                s_n.setText(rs.getString("sname"));
+                s_tp.setSelectedItem(rs.getString("stype"));
+                s_cn.setText(rs.getString("scon"));
+                s_ad.setText(rs.getString("sadd"));
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
+    }//GEN-LAST:event_s_searchActionPerformed
 
     private void s_cnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s_cnActionPerformed
         // TODO add your handling code here:
@@ -328,17 +379,18 @@ public class supplier extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_s_comActionPerformed
 
-    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
+    private void s_searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_searchFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2FocusGained
+        s_search.setText("");
+    }//GEN-LAST:event_s_searchFocusGained
 
-    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
+    private void s_searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_searchFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2FocusLost
+    }//GEN-LAST:event_s_searchFocusLost
 
-    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+    private void s_searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_s_searchKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2KeyTyped
+    }//GEN-LAST:event_s_searchKeyTyped
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // supplier add:
@@ -367,7 +419,7 @@ public class supplier extends javax.swing.JPanel {
         String address = s_ad.getText();        
         try{
             Statement s = (Statement) db.mycon().createStatement();
-            s.executeUpdate(" UPDATE supplier SET scomp = '"+scom+"', sname = '"+sn+"', stype= '"+stype+"', scon = '"+contact+"', sadd = '"+address+"'");
+            s.executeUpdate(" UPDATE supplier SET scomp = '"+scom+"', sname = '"+sn+"', stype= '"+stype+"', scon = '"+contact+"', sadd = '"+address+"' WHERE scomp = '"+scom+"' ");
             
         }catch(SQLException e) {
             System.out.println(e);
@@ -381,12 +433,35 @@ public class supplier extends javax.swing.JPanel {
         DefaultTableModel dt = (DefaultTableModel) s_table.getModel();
         int rw = s_table.getSelectedRow();
         dt.removeRow(rw);
+        allset();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // search button on employee (mouse click)
+        String sr = s_search.getText();
+        try{
+            Statement s = (Statement) db.mycon().createStatement();
+
+            ResultSet rs = s.executeQuery(" SELECT * FROM supplier WHERE scomp = '"+sr+"'");
+
+            if(rs.next()) {
+                s_com.setText(rs.getString("scomp"));
+                s_n.setText(rs.getString("sname"));
+                s_tp.setSelectedItem(rs.getString("stype"));
+                s_cn.setText(rs.getString("scon"));
+                s_ad.setText(rs.getString("sadd"));
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.print(ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -400,12 +475,12 @@ public class supplier extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextArea s_ad;
     private javax.swing.JTextField s_cn;
     private javax.swing.JTextField s_com;
     private javax.swing.JTextField s_n;
+    private javax.swing.JTextField s_search;
     private javax.swing.JTable s_table;
     private javax.swing.JComboBox<String> s_tp;
     // End of variables declaration//GEN-END:variables

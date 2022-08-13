@@ -8,6 +8,8 @@ import com.mysql.jdbc.Statement;
 import java.sql.SQLException;
 import java.sql.*;
 import java.util.Vector;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,6 +31,18 @@ public class product extends javax.swing.JPanel {
         try {
             DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
             dt.setRowCount(0);
+            
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            jTable2.setDefaultRenderer(String.class, centerRenderer);
+            
+            //DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            int numCol = dt.getColumnCount();
+            for(int i=0; i<numCol; i++)
+            jTable2.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+            
+            ((DefaultTableCellRenderer)jTable2.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             
             Statement s = (Statement) db.mycon().createStatement();
             ResultSet rs = s.executeQuery(" SELECT * FROM product");
@@ -52,6 +66,8 @@ public class product extends javax.swing.JPanel {
     }
     
     public void allsetnull(){
+        tb_load();
+        
         p_id.setText("");
         p_name.setText("");
         p_cat.setSelectedItem(null);
@@ -96,9 +112,9 @@ public class product extends javax.swing.JPanel {
         p_search = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1360, 690));
@@ -214,7 +230,7 @@ public class product extends javax.swing.JPanel {
         });
         jPanel2.add(p_com, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 290, 30));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 440, 400));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 450, 380));
 
         jTable2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -228,14 +244,22 @@ public class product extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        jTable2.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable2);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 740, 570));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 70, 770, 570));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -274,7 +298,7 @@ public class product extends javax.swing.JPanel {
                 jTextField7ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 530, 10));
+        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 430, 10));
 
         p_search.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         p_search.setForeground(new java.awt.Color(153, 153, 153));
@@ -302,7 +326,7 @@ public class product extends javax.swing.JPanel {
                 p_searchKeyTyped(evt);
             }
         });
-        jPanel1.add(p_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 30, 200, 20));
+        jPanel1.add(p_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 20, 200, 30));
 
         jButton4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton4.setText("Delete");
@@ -319,18 +343,7 @@ public class product extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 30, 30, 20));
-
-        jTextField1.setBackground(new java.awt.Color(77, 100, 89));
-        jTextField1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setText("Add new product");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 110, 170, 50));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 19, 30, -1));
 
         jButton5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton5.setText("Add Product");
@@ -350,6 +363,17 @@ public class product extends javax.swing.JPanel {
         });
         jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 580, 100, -1));
 
+        jTextField1.setBackground(new java.awt.Color(77, 100, 89));
+        jTextField1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField1.setText("Add new product");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 170, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -358,7 +382,9 @@ public class product extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -376,11 +402,11 @@ public class product extends javax.swing.JPanel {
             ResultSet rs = s.executeQuery(" SELECT * FROM product WHERE pid = '"+id+"'");
             
             if(rs.next()) {
-                  p_id.setText(String.valueOf(rs.getString("cid")));
+                  p_id.setText(rs.getString("pid"));
                   p_name.setText(rs.getString("pname"));
                   p_cat.setSelectedItem(rs.getString("cat"));
-                  p_qty.setText(String.valueOf(rs.getString("qty")));
-                  p_p.setText(String.valueOf(rs.getString("price")));
+                  p_qty.setText(String.valueOf(rs.getInt("qty")));
+                  p_p.setText(String.valueOf(rs.getDouble("price")));
                   p_com.setText(rs.getString("com"));
                   p_des.setText(rs.getString("des"));
 
@@ -414,6 +440,7 @@ public class product extends javax.swing.JPanel {
 
     private void p_searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_p_searchFocusGained
         // TODO add your handling code here:
+        p_search.setText("");
     }//GEN-LAST:event_p_searchFocusGained
 
     private void p_searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_p_searchFocusLost
@@ -426,15 +453,25 @@ public class product extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // product delete btn:
+        DefaultTableModel dtt = (DefaultTableModel) jTable2.getModel();
+        int rw = jTable2.getSelectedRow();
+        String rwname =  jTable2.getValueAt(jTable2.getSelectedRow(), 1).toString();
+        //int rwqty = (int) jTable2.getValueAt(jTable2.getSelectedRow(), 3);
+
+        dtt.removeRow(rw);
         
-        int id = Integer.parseInt(p_id.getText());
-        try {
+        //calc();
+        //payablecalc();
+        
+        try{
             Statement s = (Statement) db.mycon().createStatement();
-            s.executeUpdate(" DELETE from product WHERE pid = '"+id+"' ");
-        } catch(SQLException e) {
-            System.out.print(e);
+            
+            int rs = s.executeUpdate(" DELETE FROM product WHERE pname = '"+rwname+"'");
+            
+            
+        }catch(SQLException e) {
+            System.out.println(e);
         }
-        tb_load();
         allsetnull();
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -445,14 +482,14 @@ public class product extends javax.swing.JPanel {
         try{
             Statement s = (Statement) db.mycon().createStatement();
             
-            ResultSet rs = s.executeQuery(" SELECT * FROM product WHERE pid = '"+id+"'");
+            ResultSet rs = s.executeQuery(" SELECT * FROM product WHERE pid = '"+id+"' ");
             
             if(rs.next()) {
-                  p_id.setText(String.valueOf(rs.getString("cid")));
+                  p_id.setText(rs.getString("pid"));
                   p_name.setText(rs.getString("pname"));
                   p_cat.setSelectedItem(rs.getString("cat"));
-                  p_qty.setText(String.valueOf(rs.getString("qty")));
-                  p_p.setText(String.valueOf(rs.getString("price")));
+                  p_qty.setText(String.valueOf(rs.getInt("qty")));
+                  p_p.setText(String.valueOf(rs.getDouble("price")));
                   p_com.setText(rs.getString("com"));
                   p_des.setText(rs.getString("des"));
 
@@ -470,11 +507,11 @@ public class product extends javax.swing.JPanel {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // Add product btn:
         
-        int pid = Integer.parseInt(p_id.getText());
+        String pid = p_id.getText();
         String pname = p_name.getText();
         String pcat = (String)p_cat.getSelectedItem().toString();
         int pqty = Integer.parseInt(p_qty.getText());
-        int pp = Integer.parseInt(p_p.getText());
+        double pp = Double.parseDouble(p_p.getText());
         String pcom = p_com.getText();
         String pdes = p_des.getText();
         
@@ -485,18 +522,17 @@ public class product extends javax.swing.JPanel {
         }catch(SQLException e) {
             System.out.println(e);
         }
-        tb_load();
         allsetnull();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // product update btn:
         
-        int pid = Integer.parseInt(p_id.getText());
+        String pid = p_id.getText();
         String pname = p_name.getText();
         String pcat = (String)p_cat.getSelectedItem().toString();
         int pqty = Integer.parseInt(p_qty.getText());
-        int pp = Integer.parseInt(p_p.getText());
+        double pp = Double.parseDouble(p_p.getText());
         String pcom = p_com.getText();
         String pdes = p_des.getText();
         
@@ -507,7 +543,6 @@ public class product extends javax.swing.JPanel {
         }catch(SQLException e) {
             System.out.println(e);
         }
-        tb_load();
         allsetnull();
     }//GEN-LAST:event_jButton6ActionPerformed
 
