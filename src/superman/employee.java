@@ -32,8 +32,8 @@ public class employee extends javax.swing.JPanel {
     public employee() {
         initComponents();
         tb_load();
-        
     }
+    
     java.util.Date date;
     java.sql.Date sqlDate;
             

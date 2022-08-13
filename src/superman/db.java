@@ -16,6 +16,7 @@ public class db {
         Connection con = null;
         
         try{
+            
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost/supermandb","root","");
             return con;
@@ -23,6 +24,7 @@ public class db {
         } catch(ClassNotFoundException | SQLException e){
             System.out.println(e);
             return null;
+            
         }
     }
 }
