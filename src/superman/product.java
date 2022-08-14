@@ -181,8 +181,9 @@ public class product extends javax.swing.JPanel {
         jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 80, 30));
 
         p_cat.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        p_cat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vegetable", "Fruit", "Grain", "Protein Food", "Dairy", "Oil/Solid Fats", "Beverages" }));
+        p_cat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vegetable", "Fruit", "Grain", "Protein Food", "Dairy", "Oil/Solid Fats", "Beverages", "Juice", "Meat/Fish/Poultry" }));
         p_cat.setSelectedIndex(-1);
+        p_cat.setToolTipText("");
         p_cat.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
         p_cat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -538,7 +539,7 @@ public class product extends javax.swing.JPanel {
         
         try{
             Statement s = (Statement) db.mycon().createStatement();
-            s.executeUpdate(" UPDATE product SET pid = '"+pid+"', pname = '"+pname+"', cat = '"+pcat+"', qty = '"+pqty+"', price = '"+pp+"', com = '"+pcom+"', des = '"+pdes+"' WHERE pname = '"+pname+"' ");
+            s.executeUpdate(" UPDATE product SET pid = '"+pid+"', pname = '"+pname+"', cat = '"+pcat+"', qty = '"+pqty+"', price = '"+pp+"', com = '"+pcom+"', des = '"+pdes+"' WHERE pid = '"+pid+"' ");
             
         }catch(SQLException e) {
             System.out.println(e);

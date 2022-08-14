@@ -70,7 +70,7 @@ public class employee extends javax.swing.JPanel {
                 v.add(rs.getString(7));
                 v.add(rs.getString(8));
                 v.add(rs.getString(9));
-                v.add(rs.getString(10));
+                //v.add(rs.getString(10));
                 
                 dt.addRow(v);
                 
@@ -91,7 +91,7 @@ public class employee extends javax.swing.JPanel {
         e_ds.setSelectedItem(null);
         e_ad.setText("");
         e_jn.setDate(null);
-        e_pw.setText("");
+        //e_pw.setText("");
      }
     
     /**
@@ -124,8 +124,6 @@ public class employee extends javax.swing.JPanel {
         jLabel16 = new javax.swing.JLabel();
         e_jn = new com.toedter.calendar.JDateChooser();
         jLabel17 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        e_pw = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         e_table = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -223,7 +221,7 @@ public class employee extends javax.swing.JPanel {
                 e_dsActionPerformed(evt);
             }
         });
-        jPanel2.add(e_ds, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 80, 30));
+        jPanel2.add(e_ds, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 130, 30));
 
         e_id.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         e_id.setAlignmentX(0.0F);
@@ -272,17 +270,6 @@ public class employee extends javax.swing.JPanel {
         jLabel17.setText("Contact no:");
         jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, 30));
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel11.setText("Set Password:");
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, -1, 40));
-
-        e_pw.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                e_pwActionPerformed(evt);
-            }
-        });
-        jPanel2.add(e_pw, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, 220, -1));
-
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 490, 450));
 
         e_table.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
@@ -291,14 +278,14 @@ public class employee extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "First name", "Last name", "Gender", "Age", "Contact no", "Address", "Designation", "Joining date", "Password"
+                "ID", "First name", "Last name", "Gender", "Age", "Contact no", "Address", "Designation", "Joining date"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Byte.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Byte.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -465,7 +452,7 @@ public class employee extends javax.swing.JPanel {
                   e_cn.setText(rs.getString("econ"));
                   e_ad.setText(rs.getString("eadd"));
                   e_ds.setSelectedItem(rs.getString("edes"));
-                  e_pw.setText(rs.getString("epw"));
+                  //e_pw.setText(rs.getString("epw"));
             }
         } catch (SQLException ex) {
             //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
@@ -522,11 +509,11 @@ public class employee extends javax.swing.JPanel {
         String jdate = DateFormat.getDateInstance().format(date);
 
         //System.out.println(jdate);
-        String pw = e_pw.getText();
+        //String pw = e_pw.getText();
         
         try{
             Statement s = (Statement) db.mycon().createStatement();
-            s.executeUpdate(" INSERT INTO employee(eid, efname, elname, egen, eage, econ, eadd, edes, ejoin, epw) VALUES('"+id+"', '"+fname+"','"+lname+"','"+gen+"','"+age+"','"+con+"','"+des+"','"+add+"','"+jdate+"','"+pw+"') ");
+            s.executeUpdate(" INSERT INTO employee(eid, efname, elname, egen, eage, econ, eadd, edes, ejoin) VALUES('"+id+"', '"+fname+"','"+lname+"','"+gen+"','"+age+"','"+con+"','"+add+"','"+des+"','"+jdate+"') ");
             
         }catch(SQLException e) {
             System.out.println(e);
@@ -542,10 +529,6 @@ public class employee extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void e_pwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_pwActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_e_pwActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Update employee info:
         String id = e_id.getText();
@@ -557,15 +540,15 @@ public class employee extends javax.swing.JPanel {
         String des = e_ds.getSelectedItem().toString();
         String add = e_ad.getText();
 
-        Date date = e_jn.getDate();
-        String jdate = DateFormat.getDateInstance().format(date);
+        //Date date = e_jn.getDate();
+        //String jdate = DateFormat.getDateInstance().format(date);
 
         //System.out.println(jdate);
-        String pw = e_pw.getText();
+        //String pw = e_pw.getText();
         
         try{
             Statement s = (Statement) db.mycon().createStatement();
-            s.executeUpdate(" UPDATE employee SET eid = '"+id+"', efname = '"+fname+"', elname = '"+lname+"', egen = '"+gen+"', eage = '"+age+"', econ = '"+con+"', eadd = '"+des+"', edes = '"+add+"', ejoin = '"+jdate+"', epw = '"+pw+"' ");
+            s.executeUpdate(" UPDATE employee SET eid = '"+id+"', efname = '"+fname+"', elname = '"+lname+"', egen = '"+gen+"', eage = '"+age+"', econ = '"+con+"', eadd = '"+add+"', edes = '"+des+"' WHERE eid = '"+id+"'");
             
         }catch(SQLException e) {
             System.out.println(e);
@@ -591,7 +574,7 @@ public class employee extends javax.swing.JPanel {
                   e_cn.setText(rs.getString("econ"));
                   e_ad.setText(rs.getString("eadd"));
                   e_ds.setSelectedItem(rs.getString("edes"));
-                  e_pw.setText(rs.getString("epw"));
+                  //e_pw.setText(rs.getString("epw"));
             }
         } catch (SQLException ex) {
             //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
@@ -603,7 +586,19 @@ public class employee extends javax.swing.JPanel {
         // Delete employee from table:
         DefaultTableModel dt = (DefaultTableModel) e_table.getModel();
         int rw = e_table.getSelectedRow();
+        String id =  e_table.getValueAt(e_table.getSelectedRow(), 0).toString();
+
         dt.removeRow(rw);
+        
+         try{
+            Statement s = (Statement) db.mycon().createStatement();
+            
+            int rs = s.executeUpdate(" DELETE FROM employee WHERE eid = '"+id+"'");
+            
+            
+        }catch(SQLException e) {
+            System.out.println(e);
+        }
         allset();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -618,7 +613,6 @@ public class employee extends javax.swing.JPanel {
     private javax.swing.JTextField e_id;
     private com.toedter.calendar.JDateChooser e_jn;
     private javax.swing.JTextField e_ln;
-    private javax.swing.JTextField e_pw;
     private javax.swing.JTextField e_search;
     private javax.swing.JTable e_table;
     private javax.swing.JButton jButton1;
@@ -626,7 +620,6 @@ public class employee extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;

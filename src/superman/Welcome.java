@@ -6,6 +6,7 @@ package superman;
 
 import com.mysql.jdbc.Statement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -237,14 +238,19 @@ public class Welcome extends javax.swing.JFrame {
                 if(rs.next()) {
                     String p = rs.getString("Password");
                     if(p.equals(password)) {
-                        
+                        JOptionPane.showMessageDialog(null, "Successfully logged in!");
                         Home h = new Home();
                         h.logged.setText(username);
                         h.setVisible(true);
                         //dispose();
                         setVisible(false);
                     }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Wrong Username or Passowrd");
+
+                    }
                 }
+                else JOptionPane.showMessageDialog(null, "Wrong Username or Passowrd");
             } catch (Exception ex) {
                 //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.print(ex);
@@ -263,6 +269,8 @@ public class Welcome extends javax.swing.JFrame {
                 if(rs.next()) {
                     String p = rs.getString("Password");
                     if(p.equals(password)) {
+                        JOptionPane.showMessageDialog(null, "Successfully logged in!");
+
                         SellerHome sh = new SellerHome();
                         sh.logged.setText(username);
                         System.out.println(username);
@@ -270,7 +278,11 @@ public class Welcome extends javax.swing.JFrame {
                         //dispose();
                         setVisible(false);
                     }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Wrong Username or Passowrd");
+                    }
                 }
+                else JOptionPane.showMessageDialog(null, "Wrong Username or Passowrd");
             } catch (Exception ex) {
                 //Logger.getLogger(customer.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.print(ex);
